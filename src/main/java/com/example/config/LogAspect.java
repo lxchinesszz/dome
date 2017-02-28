@@ -23,7 +23,8 @@ import sun.util.resources.cldr.my.CalendarData_my_MM;
 @Aspect
 public class LogAspect {
 
-    Logger logger= LoggerFactory.getLogger(this.getClass());
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Pointcut("@annotation(com.example.config.MyLog)")
     private void cut() {
     }
@@ -35,7 +36,7 @@ public class LogAspect {
      */
     @Around("cut()")
     public void advice(ProceedingJoinPoint pjp) {
-        System.out.println("环绕通知之开始");
+        logger.info("===================环绕通知之开始=================");
         try {
             pjp.proceed();
         } catch (Throwable e) {
@@ -46,16 +47,20 @@ public class LogAspect {
         Object[] args = pjp.getArgs();
         Class<?> classTarget = pjp.getTarget().getClass();
         Class<?>[] par = ((MethodSignature) pjp.getSignature()).getParameterTypes();
-        System.out.println(className);
-        System.out.println(methodName);
+        logger.info("当前执行类:{},执行方法:{}", className, methodName);
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
         for (Object o : args) {
-            System.out.println(o);
+            sb.append(o).append(",");
         }
-        System.out.println("环绕通知之结束:");
+        sb.substring(0, sb.length()-1);
+        sb.append("]");
+        logger.info("参数:{}",sb.toString());
+        logger.info("===================环绕通知之结束=================");
     }
 
     @Before("cut()&&@annotation(myLog)")
     public void record(JoinPoint joinPoint, MyLog myLog) {
-        logger.info(joinPoint.getSignature().getName());
+        logger.info(myLog.value());
     }
 }

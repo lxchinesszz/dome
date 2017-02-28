@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MySchool name="jianshu:http://www.jianshu.com/u/e210c8fa704f">
+    <Grade>
+        <classes className="一班">
+            <studentName>小明</studentName>
+        </classes>
+        <classes className="二班">
+            <studentName>小红</studentName>
+        </classes>
+    </Grade>
+</MySchool>
