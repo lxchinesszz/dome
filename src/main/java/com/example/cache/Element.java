@@ -1,16 +1,11 @@
 package com.example.cache;
+import java.io.Serializable;
 
 /**
  * @Package: com.example.cache
  * @Description: 缓存基础存储单元
  * @author: liuxin
  * @date: 17/3/13 下午3:48
- */
-
-import java.io.Serializable;
-
-/**
- * 缓存元素，所对应的属性
  */
 @SuppressWarnings("serial")
 public class Element implements Serializable {

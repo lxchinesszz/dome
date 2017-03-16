@@ -17,7 +17,7 @@ public class MemoryCache extends AbstractStore implements Store {
     private final CheckManager checkManager;
 
 
-    // 暂时仅弄一个构造
+
     public MemoryCache(CacheConfiguration configure) {
         super(map);
         this.configure = configure;
@@ -32,7 +32,7 @@ public class MemoryCache extends AbstractStore implements Store {
     @Override
     public Collection<Element> putAll(Collection<Element> elements) {
         if (elements == null) {
-            throw new NullPointerException("elements can't be null");
+            throw new NullPointerException("Elements can't be null");
         }
         check(elements.size());
         for (Element e : elements) {
@@ -109,6 +109,7 @@ public class MemoryCache extends AbstractStore implements Store {
         if (checkSize <= 0) {
             return;
         }
+        //获得要清理的key
         Object[] keys = checkManager.checkConfigure(checkSize);
         if (keys != null) {
             removeAll(keys);
