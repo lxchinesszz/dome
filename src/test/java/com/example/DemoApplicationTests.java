@@ -21,7 +21,6 @@ public class DemoApplicationTests {
     public void hello1() throws Exception {
         System.out.println(jedis);
     }
-
     @Test
     public void hello() throws Exception {
         ThreadPoolTaskExecutor threadPoolTaskExecutor=new ThreadPoolTaskExecutor();
@@ -39,5 +38,8 @@ public class DemoApplicationTests {
             }
         });
 
+    }
+    @Test
+    public void contextLoads() {
     }
 }

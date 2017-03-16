@@ -1,9 +1,10 @@
 
-
-
 .idea/**
-
 target/**
 .idea/encodings.xml
 
-.idea/**
+.idea/libraries/Maven__ch_qos_logback_logback_classic_1_1_8.xml
+
+*.xml
+
+.idea/libraries/Maven__org_springframework_spring_web_4_3_5_RELEASE.xml

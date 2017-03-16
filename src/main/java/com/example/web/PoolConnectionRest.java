@@ -1,5 +1,8 @@
 package com.example.web;
 
+import com.example.builder.User;
+import com.example.builder.UserBuilder;
+import com.example.config.ConfigValue;
 import com.example.config.MyLog;
 import com.example.utils.HttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -27,6 +30,8 @@ import java.io.StringReader;
 public class PoolConnectionRest {
     @Autowired
     HttpConnectionManager httpConnectionManager;
+    @Autowired
+    ConfigValue configValue;
 
     @MyLog("使用连接池访问")
     @RequestMapping("/conn")
@@ -49,5 +54,22 @@ public class PoolConnectionRest {
 
         }
 
+    }
+
+    @RequestMapping("testError")
+    public String test(String a, String b) throws Exception {
+        if (a == null && b == null) {
+            throw new Exception();
+        }
+        return "hello world";
+    }
+    @RequestMapping("user")
+    public User getUser() {
+        User user = new UserBuilder("SpringBoot", "23").setDes("Helloworld").build();
+        return user;
+    }
+    @RequestMapping("myconfig")
+    public String getConfigValue(){
+        return configValue.getName();
     }
 }

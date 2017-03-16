@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by liuxin on 17/1/13.
+ * 测试使用模板引擎
  */
 @Controller
 public class rest {

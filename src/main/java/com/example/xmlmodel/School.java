@@ -1,7 +1,4 @@
 package com.example.xmlmodel;
-
-import com.sun.xml.internal.txw2.annotation.XmlNamespace;
-
 import javax.xml.bind.annotation.*;
 import java.util.List;
 

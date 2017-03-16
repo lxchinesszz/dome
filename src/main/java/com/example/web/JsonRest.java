@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Package: com.example.web
- * @Description: ${todo}
+ * @Description: 自定义注解使用
  * @author: liuxin
  * @date: 17/2/23 下午4:14
  */

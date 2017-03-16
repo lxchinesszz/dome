@@ -35,7 +35,7 @@ public class HttpClientUtil {
     private final static int MAX_CONN = 60;
     // 连接池
     private final static HttpConnectionManager httpConnectionManager;
-
+    //默认使用，MultiThreadedHttp，
     static {
         httpConnectionManager = new MultiThreadedHttpConnectionManager();
         HttpConnectionManagerParams params = httpConnectionManager.getParams();
@@ -44,6 +44,9 @@ public class HttpClientUtil {
         params.setDefaultMaxConnectionsPerHost(MAX_CONN_PRE_HOST);
         params.setMaxTotalConnections(MAX_CONN);
     }
+
+
+
 
     /**
      * 发送主要方法,异常捕获
