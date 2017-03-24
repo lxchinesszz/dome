@@ -3,7 +3,7 @@ package com.example.utils;
 /**
  * Created by liuxin on 16/12/26.
  */
-public enum  OrderStatus {
+public enum OrderStatus{
     remove(-1,"已删除"),
     error(0,"异常"),
     orderde(1,"已下单"),

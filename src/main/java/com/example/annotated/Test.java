@@ -7,8 +7,11 @@ package com.example.annotated;
  * @date: 17/3/16 下午2:58
  */
 public class Test {
+
     public static void main(String[] args) {
+
         FruitInfoUtil.getFruitInfo(Apple.class);
+
     }
 
 }

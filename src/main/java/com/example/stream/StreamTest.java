@@ -1,7 +1,7 @@
 package com.example.stream;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -19,6 +19,11 @@ public class StreamTest {
             return x % 2 == 0;
         }).map((x) -> {
             return x * x;
+        }).sorted(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1-o2>0?-1:1;//前面数字大，就将序排列。
+            }
         }).forEach(System.out::println);
 
 
@@ -27,6 +32,18 @@ public class StreamTest {
 //        stream.filter((x)->{
 //            return x>5;
 //        }).forEach(System.out::print);
+
+        String[] chapter = new String[]{"a", "b","c","d"};
+        Optional optional = Arrays.stream(chapter).map((x) -> {
+            return x.toUpperCase();
+        }).reduce((x, xx) -> {
+            return x + "|" + xx;
+        });
+       optional.ifPresent(System.out::println);
+
+
+
+
     }
 
 

@@ -22,6 +22,7 @@ public class Test {
         System.out.println(c1.get(2));
         // 想存放6了，实际数据只有5个
         System.out.println("总数:"+c1.size());
+        System.out.println( cm.getCache("Test1"));
         // 休息3秒，然后使用
         Thread.sleep(1000*3);
         System.out.println("刷新："+c1.get(1));

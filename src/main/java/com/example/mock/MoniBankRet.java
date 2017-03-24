@@ -44,7 +44,10 @@ public class MoniBankRet {
                 "</BOSB2C>";
         RefundXml refundXml = mock(RefundXml.class);
         when(refundXml.getXml()).thenReturn(xmls);
-        Bosb2c bosb2c = ParseXmlUtil.xmlToJavaOject(refundXml.getXml());
-        log.info(new Gson().toJson(bosb2c));
+        System.out.println(refundXml.getXml());
+//        Bosb2c bosb2c = ParseXmlUtil.xmlToJavaOject(refundXml.getXml());
+//        log.info(new Gson().toJson(bosb2c));
+
+        throw new NullPointerException();
     }
 }

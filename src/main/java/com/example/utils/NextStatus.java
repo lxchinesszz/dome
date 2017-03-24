@@ -33,4 +33,11 @@ public class NextStatus {
         this.msg = msg;
     }
 
+    @Override
+    public String toString() {
+        return "NextStatus{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 }

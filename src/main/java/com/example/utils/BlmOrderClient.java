@@ -10,6 +10,7 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * http连接池，http请求会经过三次握手，四次挥手，每请求一次握手挥手的时间是很浪费的，
  * 自高访问量的情况下会很容易出现严重错误，使用连接池的技术，大大避免了时间的浪费
  * 对SvcOrder保存订单方法进行，封装
  * 使用方法：
@@ -28,11 +28,11 @@ import java.util.Map;
  * svcOrderClient.setUrl("...").reflush();
  * 可以配置自己的连接池和伪装ip
  */
-public class SvcOrderClient {
+public class BlmOrderClient {
     /**
      * 日志处理类
      */
-    private static final Logger log = LoggerFactory.getLogger(SvcOrderClient.class);
+    private static final Logger log = LoggerFactory.getLogger(BlmOrderClient.class);
     // 读取超时
     private final static int SOCKET_TIMEOUT = 10000;
     // 连接超时
@@ -52,7 +52,7 @@ public class SvcOrderClient {
 
     private static HttpClient httpClient = new HttpClient();
 
-    private static String baseurl;
+    private static String baseurl="";
 
     private final static Gson gson = new Gson();
 
@@ -77,7 +77,7 @@ public class SvcOrderClient {
      * @param connectionManager
      * @return
      */
-    public SvcOrderClient setHttpConnecttionManager(HttpConnectionManager connectionManager) {
+    public BlmOrderClient setHttpConnecttionManager(HttpConnectionManager connectionManager) {
         HttpConnectionManagerParams params = httpConnectionManager.getParams();
         params.setConnectionTimeout(CONNECTION_TIMEOUT);
         params.setSoTimeout(SOCKET_TIMEOUT);
@@ -96,7 +96,7 @@ public class SvcOrderClient {
      *
      * @return
      */
-    public SvcOrderClient refresh() {
+    public BlmOrderClient refresh() {
         return this;
     }
 
@@ -107,7 +107,7 @@ public class SvcOrderClient {
      * @param ip
      * @return
      */
-    public SvcOrderClient setPretendIp(String ip) {
+    public BlmOrderClient setPretendIp(String ip) {
         headers.add(new Header(REQUEST_HEADER, ip));
         httpClient.getHostConfiguration().getParams().setParameter(
                 "http.default-headers", headers);
@@ -115,13 +115,13 @@ public class SvcOrderClient {
     }
 
     /**
-     * 设置SvcOrder请求地址
+     * 设置Order中心的地址
      *
      * @param url
      * @return
      */
-    public SvcOrderClient setUrl(String url) {
-        baseurl = url;
+    public BlmOrderClient setUrl(String url) {
+        this.baseurl=url;
         return this;
     }
 
@@ -132,17 +132,18 @@ public class SvcOrderClient {
      * SvcOrder svcOrder = JsonUtil.getSvcOrder(resBoby);
      *
      * @param order
-     * @param orderStatus 订单状态
      * @return
      */
-    public String saveOrderToSvc(Order order, OrderStatus orderStatus) {
+    public SvcOrder saveOrder(Order order) {
+        ResponseVo OrderData = null;
+        SvcOrder svcOrder = null;
         PostMethod postMethod = new PostMethod(baseurl + "?orderType=" + order.getOrderType());
         BufferedReader in = null;
-        String resultString ="";
+        String resultString = "";
         Map<String, Object> postMap = new HashedMap();
-        order.setOrderType("shenghuojiaofei");
-        postMap.put("doc", order);
         Map<String, NextStatus> nextStatuss = new HashedMap();
+        order.setOrderType(order.getOrderType());
+        postMap.put("doc", order);
         NextStatus next = new NextStatus(OrderStatus.be_paid);
         nextStatuss.put("nextStatus", next);
         postMap.put("opts", nextStatuss);
@@ -159,6 +160,18 @@ public class SvcOrderClient {
                 buffer.append(line);
             }
             resultString = buffer.toString();
+            OrderData = JsonUtil.getResponseVo(resultString);
+            if (OrderData == null && svcOrder == null) {
+                return svcOrder;
+            }
+            log.info("原始json转->订单快照信息：" + resultString);
+            if (OrderData.getCode() == 0) {
+                svcOrder = JsonUtil.getSvcOrder(resultString);
+                return svcOrder;
+            } else {
+                log.info("SVC_order服务，返回code：" + OrderData.getCode() + "错误信息：" + OrderData.getMessage());
+                return svcOrder;
+            }
         } catch (SocketTimeoutException e) {
             log.error("连接超时" + e.toString());
         } catch (HttpException e) {
@@ -181,28 +194,29 @@ public class SvcOrderClient {
             nextStatuss = null;
             next = null;
         }
-        return resultString;
+        return svcOrder;
     }
 
 
     /**
      * 修改状态
      *
-     * @param orderType 服务品类名称 eg.shenghuojiaofei
-     * @param id        订单号
-     * @param orderStatus  订单状态
+     * @param orderType   服务品类名称 eg.shenghuojiaofei
+     * @param id          订单号
+     * @param orderStatus 订单状态
      */
     @SuppressWarnings("deprecation")
-    public String updateOrderStatus(String orderType, String id, OrderStatus... orderStatus) {
-        String resultString ="";
+    public boolean updateOrderStatus(String orderType, String id, int canCancel, OrderStatus... orderStatus) {
+        String resultString = "";
         PutMethod putMethod = new PutMethod(baseurl + "?orderType=" + orderType + "&id=" + id);
         putMethod.addRequestHeader("Content-Type", "application/json;charset=utf-8");
         Map<String, Object> paidMap = new HashedMap();
         Map<String, Object> docMap = new HashedMap();
         ArrayList<NextStatus> statuses = new ArrayList<>();
         BufferedReader in = null;
-        docMap.put("canCancel", 0);//设置状态为不可退款
-        for (OrderStatus os:orderStatus){
+        ResponseVo responseVo = null;
+        docMap.put("canCancel", canCancel + "");//设置状态为不可退款
+        for (OrderStatus os : orderStatus) {
             statuses.add(new NextStatus(os));
         }
         paidMap.put("statuses", statuses);
@@ -212,14 +226,14 @@ public class SvcOrderClient {
         putMethod.setRequestBody(requestjson);
         try {
             httpClient.executeMethod(putMethod);
-            in = new BufferedReader(new InputStreamReader(putMethod
-                    .getResponseBodyAsStream()));
+            in = new BufferedReader(new InputStreamReader(putMethod.getResponseBodyAsStream()));
             StringBuffer buffer = new StringBuffer();
             String line = "";
             while ((line = in.readLine()) != null) {
                 buffer.append(line);
             }
             resultString = buffer.toString();
+            responseVo = gson.fromJson(resultString, ResponseVo.class);
         } catch (SocketTimeoutException e) {
             log.error("连接超时" + e.toString());
         } catch (HttpException e) {
@@ -228,6 +242,8 @@ public class SvcOrderClient {
             log.error("请求的主机地址无效" + e.toString());
         } catch (IOException e) {
             log.error("向外部接口发送数据失败" + e.toString());
+        } catch (Exception e) {
+            log.error(e.getMessage());
         } finally {
             if (in != null) {
                 try {
@@ -237,12 +253,12 @@ public class SvcOrderClient {
                 }
             }
             putMethod.releaseConnection();
-            //手动清理对象
             paidMap = null;
             statuses = null;
             docMap = null;
         }
-        return resultString;
+        return responseVo.getCode() == 0 || responseVo == null ? true : false;
     }
+
 
 }
