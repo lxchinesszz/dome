@@ -1,12 +1,10 @@
 package com.example.web;
 
-import com.sun.deploy.net.HttpResponse;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -43,13 +41,13 @@ public class rest {
 
     @RequestMapping("/chinapay")
     public void test1() throws Exception {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("https://callback.boluomeet.com/shenghuojiaofei/chinapay/order_status");
-        InputStreamEntity entity = new InputStreamEntity(new ByteArrayInputStream("hello".getBytes()), "hello".getBytes().length);
-        httpPost.setEntity(entity);
-        org.apache.http.HttpResponse response = httpClient.execute(httpPost);
-        BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-        System.out.println("输出返回数据"+br.readLine());
+//        HttpClient httpClient = new DefaultHttpClient();
+//        HttpPost httpPost = new HttpPost("https://callback.boluomeet.com/shenghuojiaofei/chinapay/order_status");
+//        InputStreamEntity entity = new InputStreamEntity(new ByteArrayInputStream("hello".getBytes()), "hello".getBytes().length);
+//        httpPost.setEntity(entity);
+//        org.apache.http.HttpResponse response = httpClient.execute(httpPost);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+//        System.out.println("输出返回数据"+br.readLine());
     }
 
 }

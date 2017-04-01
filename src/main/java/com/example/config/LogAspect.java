@@ -15,12 +15,12 @@ import sun.util.resources.cldr.my.CalendarData_my_MM;
 
 /**
  * @Package: com.example.config
- * @Description: MyLog的实现类
+ * @Description: MyLog的实现类,拦截注解
  * @author: liuxin
  * @date: 17/2/23 下午4:22
  */
-@Component
 @Aspect
+@Component
 public class LogAspect {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());

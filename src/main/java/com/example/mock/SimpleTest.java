@@ -13,20 +13,20 @@ import java.util.List;
  * mock测试
  */
 public class SimpleTest {
-    @Test
-    public void simpleTest() {
-        List<String> list = mock(List.class);
-        when(list.get(0)).thenReturn("hellworld");
-        String result = list.get(0);
-        Assert.assertEquals("hellworld", result);
-        System.out.println(result);
-    }
-
-    @Test
-    public void testTeacher() {
-        Teacher teacher = mock(Teacher.class);
-        when(teacher.getAge()).thenReturn(45);
-        System.out.println(teacher.getAge());
-    }
+//    @Test
+//    public void simpleTest() {
+//        List<String> list = mock(List.class);
+//        when(list.get(0)).thenReturn("hellworld");
+//        String result = list.get(0);
+//        Assert.assertEquals("hellworld", result);
+//        System.out.println(result);
+//    }
+//
+//    @Test
+//    public void testTeacher() {
+//        Teacher teacher = mock(Teacher.class);
+//        when(teacher.getAge()).thenReturn(45);
+//        System.out.println(teacher.getAge());
+//    }
 
 }

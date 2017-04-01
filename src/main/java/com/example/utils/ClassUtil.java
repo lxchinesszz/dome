@@ -1,7 +1,5 @@
 package com.example.utils;
 
-import com.sun.deploy.util.StringUtils;
-import freemarker.template.utility.StringUtil;
 import java.io.File;
 import java.io.FileFilter;
 import java.net.JarURLConnection;

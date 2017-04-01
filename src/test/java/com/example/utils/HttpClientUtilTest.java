@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Test;
+import org.springframework.util.ClassUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -39,8 +40,9 @@ public class HttpClientUtilTest {
     @Test//https://callback.boluomeet.com/shenghuojiaofei/chinapay/order_status
     public void test1() throws Exception {
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("http://localhost:3000/test");
-        InputStreamEntity entity = new InputStreamEntity(new ByteArrayInputStream("hello".getBytes()), "hello".getBytes().length);
+        byte []b="76612964e71d2e1b<?xml version=\"1.0\" encoding=\"UTF-8\"?><workflows xmlns=\"http://convenience.chinapay.com/schema/outerinterface\"><orderNotice><branchId>00005616</branchId><ordId>0031000000140930</ordId><ordDate>20170329</ordDate><ordStat>000</ordStat><billList><bill><merSysId>00000310</merSysId><billNo>000003102017032914340500369528</billNo><billAmt>6300</billAmt><billDate>20170329</billDate><merAccount>035520160810019500063003</merAccount><scBillStat>2</scBillStat><individualArea></individualArea></bill></billList><resv1></resv1><resv2></resv2><resv3></resv3><resv4></resv4></orderNotice></workflows>".getBytes();
+        HttpPost httpPost = new HttpPost("https://callback.boluomeet.com/shenghuojiaofei/chinapay/order_status");
+        InputStreamEntity entity = new InputStreamEntity(new ByteArrayInputStream(b), b.length);
         httpPost.setEntity(entity);
 //        httpPost.setHeader("Content-Type","application/octet-stream");
         org.apache.http.HttpResponse response = httpClient.execute(httpPost);
@@ -50,6 +52,10 @@ public class HttpClientUtilTest {
 
     @Test
     public void tree() {
+        Class[] c = ClassUtils.getAllInterfaces(new String());
+        for (Class cc:c){
+            System.out.println(cc.getName());
+        }
         Arrays.asList(1, 2, 3, 4).stream().sorted(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
@@ -85,7 +91,18 @@ public class HttpClientUtilTest {
 
     }
 
+    @Test
     public void test2() {
+        int free = 200;
+        saveDefault:
+        save(free);
+    }
 
+    public void saveDefault() {
+        System.out.println("-------");
+    }
+
+    public void save(int a) {
+        Thread.currentThread().getContextClassLoader().getResourceAsStream("");
     }
 }

@@ -1,7 +1,7 @@
 package com.example.builder;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.config.MyLog;
+
 
 /**
  * @Package: com.example.builder
@@ -9,12 +9,17 @@ import com.google.gson.GsonBuilder;
  * @author: liuxin
  * @date: 17/3/8 下午5:15
  */
+
 public class UserBuilder {
+
     private String name;
     private String des;
     private String age;
 
-   public UserBuilder(String name, String age) {
+    public UserBuilder() {
+    }
+
+    public UserBuilder(String name, String age) {
         super();
         this.name = name;
         this.age = age;
@@ -24,7 +29,7 @@ public class UserBuilder {
         this.des = des;
         return this;
     }
-
+    @MyLog(value = "拦截日志")
     public UserBuilder builderUser(String name, String age) {
         this.age = age;
         this.name = name;
