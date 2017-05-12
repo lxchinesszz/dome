@@ -1,5 +1,9 @@
 package com.example.stream;
 
+import com.example.builder.User;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,7 +26,7 @@ public class StreamTest {
         }).sorted(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                return o1-o2>0?-1:1;//前面数字大，就将序排列。
+                return o1 - o2 > 0 ? -1 : 1;//前面数字大，就将序排列。
             }
         }).forEach(System.out::println);
 
@@ -33,17 +37,21 @@ public class StreamTest {
 //            return x>5;
 //        }).forEach(System.out::print);
 
-        String[] chapter = new String[]{"a", "b","c","d"};
+        String[] chapter = new String[]{"a", "b", "c", "d"};
         Optional optional = Arrays.stream(chapter).map((x) -> {
             return x.toUpperCase();
         }).reduce((x, xx) -> {
             return x + "|" + xx;
         });
-       optional.ifPresent(System.out::println);
+        optional.ifPresent(System.out::println);
 
 
+        Map<String, Integer> map = new HashMap<>();
+        map.put("1", 1);
+        map.put("2", 2);
 
-
+        User user=null;
+        System.out.println(ObjectUtils.isEmpty(user));
     }
 
 

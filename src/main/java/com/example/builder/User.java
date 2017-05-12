@@ -21,6 +21,7 @@ public class User implements Serializable {
     public  String des;
     public  String age;
 
+    public User(){}
     public User(String name, String age,String des) {
         this.name = name;
         this.age = age;
@@ -49,5 +50,9 @@ public class User implements Serializable {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String get(){
+        return "I'm helloworld";
     }
 }
