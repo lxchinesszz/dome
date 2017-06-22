@@ -41,7 +41,7 @@ public class HttpClientUtilTest {
     public void test1() throws Exception {
         HttpClient httpClient = new DefaultHttpClient();
         byte []b="76612964e71d2e1b<?xml version=\"1.0\" encoding=\"UTF-8\"?><workflows xmlns=\"http://convenience.chinapay.com/schema/outerinterface\"><orderNotice><branchId>00005616</branchId><ordId>0031000000140930</ordId><ordDate>20170329</ordDate><ordStat>000</ordStat><billList><bill><merSysId>00000310</merSysId><billNo>000003102017032914340500369528</billNo><billAmt>6300</billAmt><billDate>20170329</billDate><merAccount>035520160810019500063003</merAccount><scBillStat>2</scBillStat><individualArea></individualArea></bill></billList><resv1></resv1><resv2></resv2><resv3></resv3><resv4></resv4></orderNotice></workflows>".getBytes();
-        HttpPost httpPost = new HttpPost("https://callback.boluomeet.com/shenghuojiaofei/chinapay/order_status");
+        HttpPost httpPost = new HttpPost("http://localhost:6969/shenghuojiaofei/chinapay/order_status");
         InputStreamEntity entity = new InputStreamEntity(new ByteArrayInputStream(b), b.length);
         httpPost.setEntity(entity);
 //        httpPost.setHeader("Content-Type","application/octet-stream");
